@@ -1,85 +1,39 @@
-<script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+  <div class="container">
+    <h1>Tic Tac Toe Multiplayer</h1>
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+    <div v-if="!game">
+      <button @click="createGame">Create Game</button>
 
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
+      <div>
+        <input v-model="joinId" placeholder="Game ID" />
+        <button @click="join">Join</button>
+      </div>
     </div>
-  </header>
 
-  <RouterView />
+    <div v-else>
+      <p>Game ID: {{ game.id }}</p>
+      <GameBoard />
+    </div>
+  </div>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
+<script setup lang="ts">
+import { ref, onMounted, computed } from 'vue'
+import { useGameStore } from './stores/gameStore'
+import GameBoard from './components/GameBoard.vue'
+
+const joinId = ref('')
+
+const gameStore = useGameStore()
+const game = computed(() => gameStore.game)
+const { initSession, createGame, joinGame } = useGameStore()
+
+async function join() {
+  await joinGame(joinId.value)
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
-}
-</style>
+onMounted(async () => {
+  await initSession()
+})
+</script>
