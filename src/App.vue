@@ -16,12 +16,14 @@
       <GameBoard />
     </div>
   </div>
+  <ErrorDialog />
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
 import { useGameStore } from './stores/gameStore'
 import GameBoard from './components/GameBoard.vue'
+import ErrorDialog  from './components/ErrorDialog.vue'
 
 const joinId = ref('')
 

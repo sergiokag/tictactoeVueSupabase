@@ -2,6 +2,7 @@ import { ref } from 'vue'
 import { supabase } from '../lib/supabase'
 import type { User } from '@supabase/supabase-js'
 import { defineStore } from 'pinia'
+import { useShowErrorMessage } from '@/composables/userShowErrorMessage'
 
 interface Database {
   public: {
@@ -27,6 +28,8 @@ interface Database {
 type Game = Database['public']['Tables']['games']['Row']
 
 export const useGameStore = defineStore('game', () => {
+  const { showError } = useShowErrorMessage();
+
   const game = ref<Game | null>(null)
   const user = ref<User | null>(null)
 
@@ -52,7 +55,10 @@ export const useGameStore = defineStore('game', () => {
       .select()
       .single()
 
-    if (error) throw error
+    if (error) {
+      showError(error.message);
+      return;
+    }
 
     game.value = data
     subscribeToGame(data.id)
@@ -63,8 +69,10 @@ export const useGameStore = defineStore('game', () => {
       game_id: gameId,
       player_id: user?.value?.id as string,
     })
-    if (error) throw error
-    game.value = data
+    if (error) {
+      showError(error.message);
+      return;
+    }    game.value = data
     subscribeToGame(gameId)
   }
 
