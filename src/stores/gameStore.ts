@@ -34,13 +34,9 @@ export const useGameStore = defineStore('game', () => {
   const user = ref<User | null>(null)
 
   async function initSession() {
-    const { data: res } = await supabase.auth.getSession()
-    if (res?.session?.user) {
-      user.value = res.session.user
-      return
-    }
     const { data } = await supabase.auth.signInAnonymously()
     user.value = data.user
+    console.log('Current user:', user.value)
   }
 
   async function createGame() {
