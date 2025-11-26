@@ -28,7 +28,7 @@ interface Database {
 type Game = Database['public']['Tables']['games']['Row']
 
 export const useGameStore = defineStore('game', () => {
-  const { showError } = useShowErrorMessage();
+  const { showError } = useShowErrorMessage()
 
   const game = ref<Game | null>(null)
   const user = ref<User | null>(null)
@@ -52,8 +52,8 @@ export const useGameStore = defineStore('game', () => {
       .single()
 
     if (error) {
-      showError(error.message);
-      return;
+      showError(error.message)
+      return
     }
 
     game.value = data
@@ -66,9 +66,10 @@ export const useGameStore = defineStore('game', () => {
       player_id: user?.value?.id as string,
     })
     if (error) {
-      showError(error.message);
-      return;
-    }    game.value = data
+      showError(error.message)
+      return
+    }
+    game.value = data
     subscribeToGame(gameId)
   }
 
@@ -104,7 +105,14 @@ export const useGameStore = defineStore('game', () => {
           alert('This game has expired or was cleaned up.')
         },
       )
-      .subscribe(status => console.log("SUB STATUS: ", status))
+      .subscribe((status) => console.log('SUB STATUS: ', status))
+  }
+
+  function leaveGame() {
+    if (game.value) {
+      supabase.channel(`game:${game.value.id}`).unsubscribe()
+    }
+    game.value = null
   }
 
   return {
@@ -114,5 +122,6 @@ export const useGameStore = defineStore('game', () => {
     createGame,
     joinGame,
     makeMove,
+    leaveGame,
   }
 })

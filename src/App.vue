@@ -105,8 +105,15 @@
 
       <!-- Game in progress -->
       <div v-else class="animate-slide-up">
-        <!-- Game ID display -->
-        <div class="mb-6 text-center">
+        <!-- Back button and Game ID display -->
+        <div class="mb-6 flex flex-col sm:flex-row items-center justify-center gap-3">
+          <button
+            @click="leaveGame"
+            class="inline-flex items-center gap-2 bg-white/80 dark:bg-slate-800/80 backdrop-blur-lg rounded-2xl px-4 py-3 shadow-lg border-2 border-white/50 dark:border-slate-700/50 text-slate-600 dark:text-slate-300 font-medium hover:bg-white dark:hover:bg-slate-700 transition-all duration-200 hover:scale-105 active:scale-95"
+          >
+            <IconBack />
+            Back
+          </button>
           <div
             class="inline-flex items-center gap-3 bg-white/80 dark:bg-slate-800/80 backdrop-blur-lg rounded-2xl px-6 py-3 shadow-lg border-2 border-white/50 dark:border-slate-700/50"
           >
@@ -131,12 +138,13 @@ import { ref, onMounted, computed } from 'vue'
 import { useGameStore } from './stores/gameStore'
 import GameBoard from './components/GameBoard.vue'
 import ErrorDialog from './components/ErrorDialog.vue'
+import IconBack from './components/icons/IconBack.vue'
 
 const joinId = ref('')
 
 const gameStore = useGameStore()
 const game = computed(() => gameStore.game)
-const { initSession, createGame, joinGame } = useGameStore()
+const { initSession, createGame, joinGame, leaveGame } = useGameStore()
 
 async function join() {
   await joinGame(joinId.value)

@@ -105,6 +105,24 @@
         <span class="text-3xl">🤝</span>
       </div>
     </div>
+
+    <!-- Play Again button (shown when game is over) -->
+    <div v-if="isGameOver" class="mt-4 animate-slide-up">
+      <button
+        @click="playAgain"
+        class="inline-flex items-center gap-2 py-3 px-6 bg-linear-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white font-bold text-lg rounded-2xl shadow-lg shadow-emerald-500/30 transform transition-all duration-200 hover:scale-105 hover:-translate-y-1 active:scale-95 focus:outline-none focus:ring-4 focus:ring-emerald-400/50"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+          />
+        </svg>
+        Play Again
+      </button>
+    </div>
   </div>
 </template>
 
@@ -113,9 +131,18 @@ import { computed } from 'vue'
 import { useGameStore } from '../stores/gameStore'
 
 const gameStore = useGameStore()
-const { makeMove } = gameStore
+const { makeMove, leaveGame, createGame } = gameStore
 const game = computed(() => gameStore.game)
 const cells = computed(() => game.value?.board.split('') ?? [])
+const isGameOver = computed(() => {
+  const status = game.value?.status
+  return status === 'X_won' || status === 'O_won' || status === 'draw'
+})
+
+async function playAgain() {
+  leaveGame()
+  await createGame()
+}
 
 function play(pos: number) {
   if (!game.value) return
