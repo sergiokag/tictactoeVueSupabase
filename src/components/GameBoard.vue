@@ -98,7 +98,7 @@
       <!-- Draw -->
       <div
         v-else-if="game?.status === 'draw'"
-        class="inline-flex items-center gap-3 bg-gradient-to-r from-purple-500 to-violet-500 text-white px-8 py-4 rounded-2xl shadow-xl animate-slide-up"
+        class="inline-flex items-center gap-3 bg-linear-to-r from-purple-500 to-violet-500 text-white px-8 py-4 rounded-2xl shadow-xl animate-slide-up"
       >
         <span class="text-3xl">🤝</span>
         <span class="font-black text-2xl">It's a Draw!</span>

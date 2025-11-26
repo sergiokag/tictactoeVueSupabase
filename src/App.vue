@@ -1,6 +1,6 @@
 <template>
   <div
-    class="min-h-screen bg-gradient-to-br from-violet-400 via-fuchsia-400 to-cyan-400 dark:from-violet-950 dark:via-fuchsia-950 dark:to-slate-900 relative overflow-hidden"
+    class="min-h-screen bg-linear-to-br from-violet-400 via-fuchsia-400 to-cyan-400 dark:from-violet-950 dark:via-fuchsia-950 dark:to-slate-900 relative overflow-hidden"
   >
     <!-- Floating decorative shapes -->
     <div class="absolute inset-0 overflow-hidden pointer-events-none">
@@ -26,7 +26,7 @@
       <!-- Title -->
       <h1 class="text-4xl sm:text-5xl md:text-6xl font-black text-center mb-8 drop-shadow-lg">
         <span
-          class="bg-gradient-to-r from-rose-500 via-fuchsia-500 to-cyan-500 dark:from-rose-400 dark:via-fuchsia-400 dark:to-cyan-400 bg-clip-text text-transparent animate-shimmer"
+          class="bg-linear-to-r from-rose-500 via-fuchsia-500 to-cyan-500 dark:from-rose-400 dark:via-fuchsia-400 dark:to-cyan-400 bg-clip-text text-transparent animate-shimmer"
         >
           Tic Tac Toe
         </span>
@@ -46,7 +46,7 @@
             <!-- Create game button -->
             <button
               @click="createGame"
-              class="w-full py-4 px-6 bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-bold text-lg rounded-2xl shadow-lg shadow-rose-500/30 transform transition-all duration-200 hover:scale-105 hover:-translate-y-1 active:scale-95 focus:outline-none focus:ring-4 focus:ring-rose-400/50"
+              class="w-full py-4 px-6 bg-linear-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-bold text-lg rounded-2xl shadow-lg shadow-rose-500/30 transform transition-all duration-200 hover:scale-105 hover:-translate-y-1 active:scale-95 focus:outline-none focus:ring-4 focus:ring-rose-400/50"
             >
               <span class="flex items-center justify-center gap-2">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
