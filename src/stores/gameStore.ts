@@ -104,7 +104,7 @@ export const useGameStore = defineStore('game', () => {
           alert('This game has expired or was cleaned up.')
         },
       )
-      .subscribe()
+      .subscribe(status => console.log("SUB STATUS: ", status))
   }
 
   return {
