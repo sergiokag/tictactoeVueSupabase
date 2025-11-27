@@ -86,6 +86,17 @@ export const useGameStore = defineStore('game', () => {
     })
   }
 
+  async function restartGame() {
+    await supabase
+      .from('games')
+      .update({
+        board: '---------',
+        current_turn: 'X',
+        status: 'in_progress',
+      })
+      .eq('id', game.value.id);
+  }
+
   function subscribeToGame(gameId: string) {
     supabase
       .channel(`game:${gameId}`)
@@ -123,5 +134,6 @@ export const useGameStore = defineStore('game', () => {
     joinGame,
     makeMove,
     leaveGame,
+    restartGame,
   }
 })
