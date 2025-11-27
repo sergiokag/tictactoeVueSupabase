@@ -108,7 +108,7 @@
         <!-- Back button and Game ID display -->
         <div class="mb-6 flex flex-col sm:flex-row items-center justify-center gap-3">
           <button
-            @click="leaveGame"
+            @click="goBack"
             class="inline-flex items-center gap-2 bg-white/80 dark:bg-slate-800/80 backdrop-blur-lg rounded-2xl px-4 py-3 shadow-lg border-2 border-white/50 dark:border-slate-700/50 text-slate-600 dark:text-slate-300 font-medium hover:bg-white dark:hover:bg-slate-700 transition-all duration-200 hover:scale-105 active:scale-95"
           >
             <IconBack />
@@ -148,6 +148,11 @@ const { initSession, createGame, joinGame, leaveGame } = useGameStore()
 
 async function join() {
   await joinGame(joinId.value)
+}
+
+function goBack() {
+  leaveGame()
+  joinId.value = ''
 }
 
 onMounted(async () => {

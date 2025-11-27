@@ -131,7 +131,7 @@ import { computed } from 'vue'
 import { useGameStore } from '../stores/gameStore'
 
 const gameStore = useGameStore()
-const { makeMove, leaveGame, createGame } = gameStore
+const { makeMove, restartGame } = gameStore
 const game = computed(() => gameStore.game)
 const cells = computed(() => game.value?.board.split('') ?? [])
 const isGameOver = computed(() => {
@@ -140,8 +140,7 @@ const isGameOver = computed(() => {
 })
 
 async function playAgain() {
-  leaveGame()
-  await createGame()
+  await restartGame()
 }
 
 function play(pos: number) {
