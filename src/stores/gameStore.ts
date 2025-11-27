@@ -87,12 +87,16 @@ export const useGameStore = defineStore('game', () => {
   }
 
   async function restartGame() {
+    if (!game.value) return
+
     await supabase
       .from('games')
       .update({
         board: '---------',
         current_turn: 'X',
         status: 'in_progress',
+        finished_at: null,
+        turn_number: 0,
       })
       .eq('id', game.value.id);
   }
