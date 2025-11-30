@@ -36,7 +36,6 @@ export const useGameStore = defineStore('game', () => {
   async function initSession() {
     const { data } = await supabase.auth.signInAnonymously()
     user.value = data.user
-    console.log('Current user:', user.value)
   }
 
   async function createGame() {
@@ -98,7 +97,14 @@ export const useGameStore = defineStore('game', () => {
         finished_at: null,
         turn_number: 0,
       })
-      .eq('id', game.value.id);
+      .eq('id', game.value.id)
+  }
+
+  async function cancelGame(gameId: string) {
+    await supabase
+      .from('games')
+      .update({ status: 'canceled', finished_at: new Date().toISOString() })
+      .eq('id', gameId)
   }
 
   function subscribeToGame(gameId: string) {
@@ -109,6 +115,13 @@ export const useGameStore = defineStore('game', () => {
         { event: 'UPDATE', schema: 'public', table: 'games', filter: `id=eq.${gameId}` },
         (payload) => {
           game.value = payload.new as Game
+          if (payload.new.status === 'canceled') {
+            showError(`The match was canceled.
+              You can start a new game anytime.`)
+            supabase.channel(`game:${game.value.id}`).unsubscribe()
+            game.value = null
+            return
+          }
         },
       )
       .on(
@@ -124,9 +137,14 @@ export const useGameStore = defineStore('game', () => {
   }
 
   function leaveGame() {
-    if (game.value) {
-      supabase.channel(`game:${game.value.id}`).unsubscribe()
+    if (!game.value) {
+      return
     }
+    if (game.value.status === 'in_progress') {
+      cancelGame(game.value.id)
+      return
+    }
+    supabase.channel(`game:${game.value.id}`).unsubscribe()
     game.value = null
   }
 
