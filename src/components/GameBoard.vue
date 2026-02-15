@@ -2,7 +2,7 @@
   <div>
     <!-- Game board -->
     <div>
-      <div>
+      <div class="board">
         <button
           v-for="(cell, index) in cells"
           :key="index"
@@ -76,3 +76,18 @@ function play(pos: number) {
 }
 
 </script>
+
+<style scoped>
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  width: 300px;
+  height: 300px;
+  margin: 0 auto;
+}
+
+.board button {
+  height: 100%;
+}
+</style>
