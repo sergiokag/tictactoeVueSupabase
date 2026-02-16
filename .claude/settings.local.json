@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:dribbble.com)",
+      "WebFetch(domain:www.smashingmagazine.com)",
+      "WebFetch(domain:uxdesign.cc)",
+      "WebFetch(domain:www.designtrends.com)",
+      "WebFetch(domain:www.webdesignerdepot.com)"
+    ]
+  }
+}
